@@ -1,0 +1,40 @@
+/* A bound, viewport-sized book instead of four vertically stacked sections. */
+.book-stage{position:relative;height:100svh;min-height:620px;isolation:isolate;perspective:2400px;overflow:hidden;background:#ead8b7;scroll-margin-top:0;outline:none}
+.book-stage>.reading-room,.book-stage>.library-footer{position:absolute;inset:0;width:100%;height:100%;min-height:0;margin:0;visibility:hidden;pointer-events:none;z-index:0;transform:none;overflow:auto;overscroll-behavior:contain}
+.book-stage>.current-page{visibility:visible;pointer-events:auto;z-index:2}
+.book-stage .reading-room{padding:125px max(9vw,30px) 100px;align-items:center}
+.book-stage .spread-inner{transition:none!important;transform:none!important;opacity:1!important}
+.book-stage .page-turn-light{display:none}
+.book-stage .room-progress{position:absolute;top:115px;right:15px;margin:0;height:auto;z-index:15}
+.book-stage .page-folio{bottom:78px}
+.book-stage .closing-copy{padding-top:135px}
+.book-stage .closing-colophon{bottom:88px}
+.book-controls{position:absolute;z-index:20;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px max(5vw,20px) calc(15px + env(safe-area-inset-bottom));background:linear-gradient(#f9eddaee,#eedcbcff);border-top:1px solid #b792583b;box-shadow:0 -5px 25px #7651240a}
+.book-arrow{display:flex;align-items:center;gap:14px;min-height:40px;background:transparent;color:#64421f;font:500 14px Fraunces,Georgia,serif;padding:8px 16px;border:1px solid #b28c5459;border-radius:3px;transition:background .2s}
+.book-arrow:hover{background:#d8b47a40}.book-arrow:disabled{opacity:.3;cursor:default}.book-status{font-size:10px;letter-spacing:.08em;color:#806344;text-align:center;outline:none}
+.book-turning .room-progress{pointer-events:none}.book-turning .page-corners{transform:none}
+/* Each physical leaf is exactly half a spread. Its hinge stays at 50%,
+   coincident with the painted crease, throughout the complete 180° turn. */
+.book-fold{position:absolute;inset:0;z-index:8;pointer-events:none;perspective:2400px;perspective-origin:50% 50%}
+.fold-resting{position:absolute;inset:0;clip-path:inset(0 50% 0 0)}
+.fold-back .fold-resting{clip-path:inset(0 0 0 50%)}
+.fold-leaf{position:absolute;top:0;bottom:0;left:50%;width:50%;transform-origin:left center;transform-style:preserve-3d;animation:spine-forward .85s cubic-bezier(.45,.08,.28,1) both}
+.fold-back .fold-leaf{left:0;transform-origin:right center;animation-name:spine-back}
+.fold-hinge{position:absolute;left:0;top:50%;width:0;height:0}.fold-back .fold-hinge{left:auto;right:0}
+.fold-face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#f8ecd6}
+.fold-reverse{transform:rotateY(180deg)}
+.book-stage .fold-snapshot{position:absolute;left:0;top:0;width:var(--spread-width);height:var(--spread-height);min-height:0;margin:0;visibility:visible;overflow:hidden;pointer-events:none;transform:none;opacity:1;animation:none!important}
+.fold-forward .fold-front>.fold-snapshot,.fold-back .fold-reverse>.fold-snapshot{left:calc(var(--spread-width) / -2)}
+.fold-snapshot *,.fold-snapshot *:before,.fold-snapshot *:after{animation:none!important;transition:none!important}
+.fold-face:after{content:'';position:absolute;z-index:12;inset:0;pointer-events:none;background:linear-gradient(90deg,#45270d66,#79522c22 18%,#fff5dc33 70%,#44230e20);animation:spine-shade .85s ease both}
+.fold-reverse:after{background:linear-gradient(270deg,#45270d66,#79522c22 18%,#fff5dc33 70%,#44230e20)}
+.fold-back .fold-front:after{background:linear-gradient(270deg,#45270d66,transparent 65%)}
+@keyframes spine-forward{from{transform:rotateY(0)}to{transform:rotateY(-180deg)}}
+@keyframes spine-back{from{transform:rotateY(0)}to{transform:rotateY(180deg)}}
+@keyframes spine-shade{0%,100%{opacity:0}45%,55%{opacity:1}}
+@media(max-width:700px){
+ .book-stage{height:100svh;min-height:660px}.book-stage .room-progress{top:85px;right:0;left:0;margin:auto;gap:4px;width:calc(100% - 24px);max-width:390px;height:45px}.book-stage .room-progress a{flex:1;padding:7px 4px;gap:4px}.book-stage .room-progress a>b{font-size:7px}.book-stage .room-progress a>span{font-size:12px}
+ .book-stage .reading-room{padding:145px 26px 105px;align-items:start}.book-stage .spread-inner{gap:15px}.book-stage .room-illustration{min-height:0}.book-stage .room-illustration>img{height:190px;max-width:190px}.book-stage .room-streaks .room-illustration>img,.book-stage .room-clubs .room-illustration>img{height:160px;max-width:220px}.book-stage .illustration-caption{font-size:11px;margin-top:6px}.book-stage .room-copy h3{font-size:31px;margin:12px 0}.book-stage .room-copy p{font-size:12px;line-height:1.7;margin-bottom:17px}.book-stage .room-link.scroll-control{min-height:49px;padding-top:13px;padding-bottom:13px;font-size:11px}.book-stage .page-folio{display:none}.book-stage .page-corner{width:140px;opacity:.65}.book-stage .growing-ivy{display:none}.book-stage .closing-copy{padding:170px 22px 0}.book-stage .closing-copy>p{font-size:30px}.book-controls{padding:10px 12px calc(10px + env(safe-area-inset-bottom));gap:6px}.book-arrow{font-size:11px;gap:7px;padding:7px 10px}.book-status{font-size:8px;letter-spacing:0;max-width:105px}.book-stage .closing-colophon{bottom:85px;font-size:6px}
+}
+@media(max-height:760px) and (min-width:701px){.book-stage .room-illustration>img{height:285px}.book-stage .room-copy h3{font-size:42px}.book-stage .room-copy p{font-size:14px}.book-stage .room-illustration{min-height:300px}}
+@media(prefers-reduced-motion:reduce){.book-stage>*{animation:none!important;transform:none!important}}

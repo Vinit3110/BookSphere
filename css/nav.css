@@ -1,0 +1,4 @@
+.nav{position:relative;max-width:1320px;margin:8px auto 0;border:1px solid rgb(255 249 234 / 40%);border-radius:999px;background:rgb(255 249 234 / 58%);box-shadow:0 4px 18px rgb(57 39 18 / 7%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:7px 20px}
+.logo svg{width:32px;height:32px}.logo b{font-size:21px}.links .l{font-size:12px;padding:7px 12px}.links .l.on{background:#e8d9b7}
+.usr{display:flex;align-items:center;gap:7px}.usr .nav-icon{background:transparent;font-size:18px;padding:5px;color:var(--ink)}
+@media(max-width:760px){.nav{margin:6px 8px 0;border-radius:20px}.links{gap:0}.links .l{padding:6px 9px;font-size:11px}}

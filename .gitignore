@@ -1,0 +1,59 @@
+# BookSphere is a static site. Keep its source artwork, processed assets, and
+# review evidence in version control; ignore only local tooling by-products.
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor and IDE workspace state
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.swp
+*.swo
+*~
+
+# JavaScript tooling
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python tooling used by the asset-preparation scripts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local browser-test, coverage, and performance-tool output
+playwright-report/
+test-results/
+blob-report/
+coverage/
+.nyc_output/
+.lighthouseci/
+
+# Local configuration and temporary working files
+.env
+.env.*
+!.env.example
+.cache/
+.tmp/
+tmp/
+temp/
+*.log
+
+# Conventional build output if tooling is added later
+dist/
+build/
+out/

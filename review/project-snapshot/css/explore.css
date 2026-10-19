@@ -1,0 +1,2 @@
+.ph{padding-top:4px}.ph:after{content:'';position:absolute;right:2%;top:-14px;width:180px;height:90px;background:url('../assets/slices/library/shelf-open-book.webp') right top/contain no-repeat;pointer-events:none}.grid .cv{box-shadow:0 5px 12px rgb(57 39 18 / 15%)}
+@media(max-width:600px){.ph:after{width:105px;opacity:.7}.grid .cv{height:158px}}

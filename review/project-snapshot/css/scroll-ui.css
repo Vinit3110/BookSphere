@@ -1,0 +1,34 @@
+/* The user's treasure-scroll painting, separated into a fixed left roll,
+   an unfurling paper centre and a travelling right edge. */
+body[data-page] .scroll-control{--scroll-travel:160px;--scroll-cap:31px;--scroll-end:29px;position:relative;isolation:isolate;background:none;border:0;border-radius:3px;box-shadow:none;color:#4d2b14;text-shadow:0 1px 0 #fff1cd80;transform:none;filter:none;overflow:visible;min-height:62px;padding:18px 34px 18px 44px;font-family:Fraunces,Georgia,serif;line-height:1.3;transition:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+body[data-page] .scroll-control:before,body[data-page] .scroll-control:after{content:none!important;border:0;background:none;filter:none}
+body[data-page] .scroll-control:hover,body[data-page] .scroll-control:active{transform:none;filter:none;color:#44230f}
+.scroll-art{position:absolute;z-index:-1;inset:-4px 0;pointer-events:none;filter:drop-shadow(0 4px 3px #53301929);transition:filter .4s}
+.scroll-art i{position:absolute;display:block;height:100%;top:0;pointer-events:none;background-repeat:no-repeat;background-size:100% 100%;transition:transform .48s cubic-bezier(.22,.75,.25,1);will-change:auto}
+.scroll-roll{left:0;width:var(--scroll-cap);z-index:3;background-image:url('../assets/ui/scroll/roll.webp');transform-origin:50% 50%;transform:rotate(-1deg)}
+.scroll-paper{left:calc(var(--scroll-cap) - 1px);right:calc(var(--scroll-end) - 1px);z-index:1;background-image:url('../assets/ui/scroll/paper.webp');transform-origin:left center;transform:scaleX(.93)}
+.scroll-edge{right:0;width:var(--scroll-end);z-index:2;background-image:url('../assets/ui/scroll/edge.webp');transform:translateX(calc(var(--scroll-travel)*-.07));transform-origin:left center}
+.scroll-label{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:18px;white-space:nowrap;opacity:1;transition:opacity .16s ease,color .25s}
+body[data-page] .scroll-control .scroll-label{font:inherit;color:inherit;text-shadow:inherit}
+.scroll-label>span{font-size:1.15em;line-height:1}
+body[data-page] .hero-primary.scroll-control{font-size:16px;font-weight:600;min-height:64px;padding:19px 35px 19px 45px;gap:0}
+body[data-page] .hero-secondary.scroll-control{--scroll-cap:25px;--scroll-end:23px;min-height:49px;padding:14px 29px 14px 34px;font-size:12px;color:#63401f;gap:0}
+body[data-page] .room-link.scroll-control{min-height:63px;padding:18px 36px 18px 44px;font-size:14px;gap:0}
+body[data-page] .usr .btn.scroll-control{--scroll-cap:22px;--scroll-end:20px;min-height:43px;min-width:94px;padding:12px 23px 12px 30px;font:600 12px/1.3 Fraunces,Georgia,serif}
+body[data-page] .links .l.on.scroll-control{--scroll-cap:20px;--scroll-end:18px;min-height:39px;padding:10px 20px 10px 28px;font-size:12px}
+body[data-page] .scroll-control:is(:focus-visible,.scroll-touch-open) .scroll-paper{transform:scaleX(1)}
+body[data-page] .scroll-control:is(:focus-visible,.scroll-touch-open) .scroll-edge{transform:translateX(0)}
+body[data-page] .scroll-control:is(:focus-visible,.scroll-touch-open) .scroll-roll{transform:rotate(1deg) translateX(-1px)}
+@media(hover:hover){body[data-page] .scroll-control:hover .scroll-paper{transform:scaleX(1)}body[data-page] .scroll-control:hover .scroll-edge{transform:translateX(0)}body[data-page] .scroll-control:hover .scroll-roll{transform:rotate(1deg) translateX(-1px)}body[data-page] .scroll-control:hover .scroll-art{filter:drop-shadow(0 5px 4px #53301935)}}
+/* Press rolls the paper back toward the left spindle before its action runs.
+   Width/height of the actual hit target and label layout never change. */
+body[data-page] .scroll-control.scroll-closing .scroll-art i{transition:transform .18s cubic-bezier(.5,0,.8,.5)}
+body[data-page] .scroll-control.scroll-closing .scroll-paper{transform:scaleX(.05)}
+body[data-page] .scroll-control.scroll-closing .scroll-edge{transform:translateX(calc(var(--scroll-travel)*-.95))}
+body[data-page] .scroll-control.scroll-closing .scroll-roll{transform:rotate(-5deg) scaleX(1.04)}
+body[data-page] .scroll-control.scroll-closing .scroll-label{opacity:0}
+/* The chapter index uses the same parchment palette; it remains a bookmark. */
+.room-progress a.active{background:#d8b37b;color:#492d17;box-shadow:none}
+.room-progress a.active:before{background:url('../assets/ui/scroll/paper.webp') center/100% 100% no-repeat;opacity:1}
+@media(max-width:700px){body[data-page] .hero-primary.scroll-control{--scroll-cap:27px;--scroll-end:25px;min-height:54px;font-size:13px;padding:16px 30px 16px 38px}body[data-page] .hero-secondary.scroll-control{--scroll-cap:22px;--scroll-end:20px;min-height:43px;padding:12px 25px 12px 30px;font-size:10px}body[data-page] .usr .btn.scroll-control{--scroll-cap:19px;--scroll-end:17px;min-width:80px;min-height:38px;padding:10px 20px 10px 26px;font-size:11px}body[data-page] .room-link.scroll-control{--scroll-cap:26px;--scroll-end:24px;min-height:55px;font-size:12px;padding:16px 29px 16px 36px}.scroll-label{gap:13px}}
+@media(prefers-reduced-motion:reduce){.scroll-art,.scroll-art i,.scroll-label{transition:none!important}.scroll-art i{transform:none!important}body[data-page] .scroll-control.scroll-closing .scroll-label{opacity:1}}
