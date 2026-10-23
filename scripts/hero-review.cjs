@@ -27,7 +27,7 @@ const server = http.createServer((req, res) => {
       const errors = [];
       page.on('pageerror', e => errors.push(e.message));
       if(verify) page.on('console', message=>{if(message.type()==='error')errors.push(message.text())});
-      await page.goto(`http://127.0.0.1:${server.address().port}/booksphere.html#home`);
+      await page.goto(`http://127.0.0.1:${server.address().port}/index.html#home`);
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(1900);
       // The final composition, after the six-second push-in, is the QA target.
@@ -136,7 +136,7 @@ const server = http.createServer((req, res) => {
     if (verify) {
       const context = await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
       const page = await context.newPage();
-      await page.goto(`http://127.0.0.1:${server.address().port}/booksphere.html#home`);
+      await page.goto(`http://127.0.0.1:${server.address().port}/index.html#home`);
       assert.equal(await page.locator('.hero').evaluate(e=>e.classList.contains('intro')),false);
       assert.equal(await page.locator('.hero').evaluate(e=>e.getAnimations({subtree:true}).filter(a=>a.playState==='running').length),0);
       await page.screenshot({path:path.join(out,'390x844-reduced-motion.png')});

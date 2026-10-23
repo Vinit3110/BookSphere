@@ -9,7 +9,7 @@
 
 1. [Executive Summary](#1-executive-summary)
 2. [Architecture & Project Structure](#2-architecture--project-structure)
-3. [HTML — booksphere.html](#3-html--bookspherhtml)
+3. [HTML — index.html](#3-html--indexhtml)
 4. [CSS — Design System & Stylesheets](#4-css--design-system--stylesheets)
 5. [JavaScript — Logic, State & Rendering](#5-javascript--logic-state--rendering)
 6. [Assets & Media Pipeline](#6-assets--media-pipeline)
@@ -62,8 +62,7 @@ BookSphere is an impressive, richly illustrated single-page reading-tracker web 
 
 ```
 BookSphere/
-├── index.html                  # Meta-redirect to booksphere.html (3 lines)
-├── booksphere.html             # Monolith: 218 lines, ~49 KB
+├── index.html                  # Application entry point: monolith, ~49 KB
 ├── css/                        # 14 stylesheet files
 │   ├── fonts.css               # Self-hosted Fraunces + Nunito
 │   ├── base.css                # CSS custom properties, card/button overrides
@@ -93,17 +92,17 @@ BookSphere/
 
 | Issue | Severity | Detail |
 |---|---|---|
-| **Hybrid monolith** | HIGH | `booksphere.html` contains ~2,600 characters of inline `<style>`, the entire data layer (16 books, 7 genres, 6 clubs, 4 cities, quotes, personas), all state management, all view renderers, the pixel cat engine, post-render hooks, the router, and all event handlers — in one `<script>` block. The brief explicitly called for splitting into `data.js`, `state.js`, `router.js`, `views.js`, `cat.js`, `effects.js`, `portal.js`, `modals.js`, `main.js`. This was never completed. |
-| **Inline styles duplicate external** | MEDIUM | Lines 12–88 of `booksphere.html` are a full `<style>` block with ~3,500 characters of CSS rules. Many of these (`.hero`, `.card`, `.btn`, `.quote`, `.nav`, `.steam`, etc.) are then overridden or extended by the 13 external CSS files, creating a confusing cascade. |
+| **Hybrid monolith** | HIGH | `index.html` contains ~2,600 characters of inline `<style>`, the entire data layer (16 books, 7 genres, 6 clubs, 4 cities, quotes, personas), all state management, all view renderers, the pixel cat engine, post-render hooks, the router, and all event handlers — in one `<script>` block. The brief explicitly called for splitting into `data.js`, `state.js`, `router.js`, `views.js`, `cat.js`, `effects.js`, `portal.js`, `modals.js`, `main.js`. This was never completed. |
+| **Inline styles duplicate external** | MEDIUM | Lines 12–88 of `index.html` are a full `<style>` block with ~3,500 characters of CSS rules. Many of these (`.hero`, `.card`, `.btn`, `.quote`, `.nav`, `.steam`, etc.) are then overridden or extended by the 13 external CSS files, creating a confusing cascade. |
 | **CSS file count** | MEDIUM | 14 CSS files (13 external + 1 inline) for a static page is excessive. `dashboard.css`, `clubs.css`, `portal.css`, `about.css` are each 2–3 lines. These should be consolidated. |
 | **`manifest.js` is dead** | MEDIUM | The `assets/manifest.js` file is an ES module (`export const assets = ...`) but nothing imports it. Cover paths are hardcoded in the `ART` object on line 122. |
-| **`index.html` meta-redirect** | LOW | Works, but using `<meta http-equiv="refresh">` is outdated. A server-side redirect or just making `booksphere.html` the actual `index.html` is cleaner. |
+| **Canonical entry point** | RESOLVED | The application now lives directly in `index.html`; the obsolete meta-refresh page and its extra navigation step were removed. |
 
 **The brief's #1 instruction — split into a clean project structure — was only partially done. The JS split is the most critical remaining work.**
 
 ---
 
-## 3. HTML — booksphere.html
+## 3. HTML — index.html
 
 ### What works
 
@@ -144,7 +143,7 @@ BookSphere/
 | Issue | File | Detail |
 |---|---|---|
 | **Readability** | All files | Every CSS file is written in compressed single-line form. `home.css` is 92 lines but those 92 lines contain what would be ~600 lines formatted. `bookcraft.css` (85 lines) would be ~500. This makes maintenance, debugging, and collaboration nearly impossible. The project has no minification step, so this compression is purely in the source. |
-| **Inline/external conflicts** | `booksphere.html` + `base.css` + `app-craft.css` | The inline `<style>` defines `.card`, `.btn`, `.nav`, `.hero`, `.quote`, etc. Then `base.css` redefines `.card`, `.btn`. Then `app-craft.css` redefines `.card` again with different `background`, `border-radius`, and `box-shadow`. The cascade relies on load order, not specificity, making it fragile. |
+| **Inline/external conflicts** | `index.html` + `base.css` + `app-craft.css` | The inline `<style>` defines `.card`, `.btn`, `.nav`, `.hero`, `.quote`, etc. Then `base.css` redefines `.card`, `.btn`. Then `app-craft.css` redefines `.card` again with different `background`, `border-radius`, and `box-shadow`. The cascade relies on load order, not specificity, making it fragile. |
 | **`!important` usage** | `clubs.css:1` | `background-color:#ded0af!important` and `background-image:...!important` — signals a specificity war. |
 | **Duplicate animation names** | inline + `home.css` | `@keyframes in` is defined inline (line 26) and `@keyframes in` is depended on by `.bd` (line 75). These share the animation namespace, which could collide. |
 | **Dead selectors** | `bookcraft.css:4` | `body[data-page="home"] :is(.hero-primary,...):not(.scroll-control)` — the `.scroll-control` class is now added to all these elements by `ui.js`, so the `:not(.scroll-control)` branch is dead. These rules no longer apply. |
@@ -350,11 +349,11 @@ BookSphere/
 
 | Item | Location | Why it's stale |
 |---|---|---|
-| **Original SVG hero renderer** | `booksphere.html:131–146` | Overridden by `R.home = BookSphereHome.render` on line 161 |
-| **Inline `post.home`** | `booksphere.html:180–184` | Overridden by `post.home = () => BookSphereHome.mount(...)` on line 187 |
-| **`window.sq`** | `booksphere.html:183` | Set inline, then reassigned by `BookSphereHome.mount()` |
-| **Inline `<style>` block** | `booksphere.html:11–89` | ~88 lines of CSS that's mostly overridden by the 13 external files |
-| **Pixel cat `Cat()` function** | `booksphere.html:164–178` | The brief says don't ship pixel cat on painted art. Dashboard hides the canvas but JS still ticks. |
+| **Original SVG hero renderer** | `index.html:131–146` | Overridden by `R.home = BookSphereHome.render` on line 161 |
+| **Inline `post.home`** | `index.html:180–184` | Overridden by `post.home = () => BookSphereHome.mount(...)` on line 187 |
+| **`window.sq`** | `index.html:183` | Set inline, then reassigned by `BookSphereHome.mount()` |
+| **Inline `<style>` block** | `index.html:11–89` | ~88 lines of CSS that's mostly overridden by the 13 external files |
+| **Pixel cat `Cat()` function** | `index.html:164–178` | The brief says don't ship pixel cat on painted art. Dashboard hides the canvas but JS still ticks. |
 | **`manifest.js`** | `assets/manifest.js` | ES module that nothing imports |
 | **`bookcraft.css` lines 4–9** | `css/bookcraft.css:4–9` | `:not(.scroll-control)` walnut-plaque styles — all targets now have `.scroll-control`, so these never apply |
 | **`cover-people-we-meet-on-vacation`** | `assets/slices/library/` | Asset exists but no book in the data array uses it |

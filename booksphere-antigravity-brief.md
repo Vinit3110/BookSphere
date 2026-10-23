@@ -1,7 +1,7 @@
 # BookSphere: Implementation Brief for Antigravity
 
 ## 0. Goal
-`booksphere.html` is a working single-file prototype (vanilla HTML/CSS/JS). Its layout, features and animations work, but its visuals are crude code-drawn stand-ins. The target look is `reference/reference.jpg` (the 5-screen painted storybook mockup). **Rebuild the visual layer using the supplied illustration assets, keep all behaviour, and split the file into a normal project structure.** Do not rewrite the app from scratch.
+`index.html` is a working single-file prototype (vanilla HTML/CSS/JS). Its layout, features and animations work, but its visuals are crude code-drawn stand-ins. The target look is `reference/reference.jpg` (the 5-screen painted storybook mockup). **Rebuild the visual layer using the supplied illustration assets, keep all behaviour, and split the file into a normal project structure.** Do not rewrite the app from scratch.
 
 ## 1. Rules of engagement
 - Work incrementally, one section at a time. Commit (or snapshot) after each step in section 8.
@@ -12,7 +12,7 @@
 - Do not mention anywhere in the UI that data is sample data.
 
 ## 2. What exists today (preserve)
-Single file `booksphere.html`, hash-routed views `home, dashboard, explore, mybooks, dna, streaks, clubs`.
+Single file `index.html`, hash-routed views `home, dashboard, explore, mybooks, dna, streaks, clubs`.
 - **Data:** `B` (books), `G`/`GC` (genres and colours), `P` (Reading DNA personas), `CITY`/`CL` (local clubs by city; sample data, keep it feeling real), `QT` (hero quotes).
 - **State:** `S` in `localStorage` key `bs-v1`. Library entries `{id, st, prog, score}` with statuses reading/done/plan/hold/drop (MAL/AniList-style tracking modal with status, page slider, score). Streak log by date, joined clubs, user-created clubs.
 - **Logic:** `dna()` (genre weights → persona, bars, donut), `recs()` (match % from DNA), `streak()`/`longest()`.

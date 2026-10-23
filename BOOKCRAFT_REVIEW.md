@@ -95,5 +95,5 @@ pending work from the previous brief.
 ## Local viewing
 
 Run `python -m http.server 4173 --bind 127.0.0.1` from the project root and open
-`http://127.0.0.1:4173/booksphere.html#home`.
+`http://127.0.0.1:4173/index.html#home`.
 The new gallery is `http://127.0.0.1:4173/review/bookcraft.html`.

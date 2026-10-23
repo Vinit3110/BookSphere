@@ -20,7 +20,7 @@ their supplied character/sticker illustrations.
   exists. The included 12 sheet covers are small source crops, so they are soft
   at large grid sizes.
 - The current prototype is intentionally still powered by its pre-existing
-  single-file interaction layer in `booksphere.html`; the visual styles and
+  single-file interaction layer in `index.html`; the visual styles and
   assets are now separated, but the full JavaScript module extraction described
   in the brief remains a follow-up refactor.
 - `reference/reference.jpg` is not present in the workspace. The chat image was

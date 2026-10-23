@@ -5,7 +5,7 @@ const server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+deco
 (async()=>{await new Promise(r=>server.listen(0,'127.0.0.1',r));const browser=await chromium.launch({channel:'chrome',headless:true});let results=[];try{
 for(const width of [1440,390]){
  const context=await browser.newContext({viewport:{width,height:width===390?844:900},hasTouch:true});const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(`http://127.0.0.1:${server.address().port}/booksphere.html`);await page.waitForTimeout(2100);await page.evaluate(()=>document.fonts.ready);await page.screenshot({path:path.join(out,`${width}-home.png`)});
+ await page.goto(`http://127.0.0.1:${server.address().port}/index.html`);await page.waitForTimeout(2100);await page.evaluate(()=>document.fonts.ready);await page.screenshot({path:path.join(out,`${width}-home.png`)});
  const book=page.locator('.book-stage');await book.scrollIntoViewIfNeeded();await page.evaluate(()=>document.querySelector('.book-stage').scrollIntoView());await page.waitForTimeout(600);
  const height=await page.evaluate(()=>document.documentElement.scrollHeight);
  assert.equal(await page.locator('.current-page').count(),1);await page.screenshot({path:path.join(out,`${width}-chapter1.png`)});
@@ -40,6 +40,6 @@ for(const width of [1440,390]){
  await page.reload();assert.equal(await page.evaluate(()=>S.user.name),'Vinit');assert.ok((await page.evaluate(()=>JSON.stringify(S))).includes('Lantern Readers'));
  assert.deepEqual(errors,[]);results.push({width,pages:4,routes:7,errors,tracking:'saved',club:'created'});await context.close();
 }
-const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'}),page=await context.newPage();await page.goto(`http://127.0.0.1:${server.address().port}/booksphere.html`);await page.locator('[data-page-step="1"]').click();assert.equal(await page.locator('.book-stage').getAttribute('data-page-index'),'1');assert.equal(await page.locator('.book-turning').count(),0);await context.close();
+const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'}),page=await context.newPage();await page.goto(`http://127.0.0.1:${server.address().port}/index.html`);await page.locator('[data-page-step="1"]').click();assert.equal(await page.locator('.book-stage').getAttribute('data-page-index'),'1');assert.equal(await page.locator('.book-turning').count(),0);await context.close();
 fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results,null,2));
 }finally{await browser.close();server.close()}})().catch(e=>{console.error(e);process.exitCode=1});

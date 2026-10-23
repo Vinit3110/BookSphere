@@ -107,6 +107,6 @@ it. These are local simulated measurements, not deployed-site field data.
 ## Local preview
 
 From the repository root, run `python -m http.server 4173 --bind 127.0.0.1`,
-then open `http://127.0.0.1:4173/booksphere.html#home`.
+then open `http://127.0.0.1:4173/index.html#home`.
 The screenshot gallery is `http://127.0.0.1:4173/review/`.
 No framework, build step, account or deployment is required.
